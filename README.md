@@ -1,3 +1,3 @@
-# Mini Form (basic & RHF) 📝
+# Mini Form (useState & RHF) ☰
 
 Knowledge reset
