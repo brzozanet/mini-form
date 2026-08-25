@@ -13,6 +13,8 @@ const initialForm = {
 
 export default function FormBasic() {
   const [formData, setFormData] = useState(initialForm);
+  const [isFormSend, setIsFormSend] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   // NOTE: Sprawdzanie poprawności imienia i treści wiadomości
 
@@ -46,12 +48,13 @@ export default function FormBasic() {
 
   const handleFormSubmit: FormSubmit = (event) => {
     event.preventDefault();
+    setIsFormSend(true);
 
     if (!isNameValid || !isEmailValid || !isMessageValid) {
       return;
     }
 
-    alert(JSON.stringify(formData));
+    setIsSuccess(true);
     setFormData(initialForm);
   };
 
@@ -73,15 +76,9 @@ export default function FormBasic() {
             onChange={handleFormDataChange}
             // onChange={(e) => console.log(e)}
           />
-          {isNameValid ? (
-            ""
-          ) : (
+          {!isNameValid && isFormSend && (
             <p>Imię musi zawierać minimum {NAME_LENGTH} znaki.</p>
           )}
-
-          {/* {formData.name && !isNameValid && (
-            <p>Imię musi zawierać minimum {NAME_LENGTH} znaki.</p>
-          )} */}
         </label>
 
         <label htmlFor="email">
@@ -95,7 +92,7 @@ export default function FormBasic() {
             value={formData.email}
             onChange={handleFormDataChange}
           />
-          {isEmailValid ? "" : <p>Wpisz poprawny adres email</p>}
+          {isEmailValid && isFormSend && <p>Wpisz poprawny adres email</p>}
         </label>
 
         <label htmlFor="message">
@@ -110,9 +107,7 @@ export default function FormBasic() {
             cols={30}
             rows={10}
           ></textarea>
-          {isMessageValid ? (
-            ""
-          ) : (
+          {isMessageValid && isFormSend && (
             <p>Wiadomość musi zawierać minimum {MESSAGE_LENGTH} znaków.</p>
           )}
         </label>
@@ -124,6 +119,7 @@ export default function FormBasic() {
           Wyślij wiadomość
         </button>
       </form>
+      {isSuccess && <h3>Formularz wysłany poprawnie 😀</h3>}
     </>
   );
 }
