@@ -25,28 +25,42 @@ export default function FormBasic() {
     });
 
     if (formData.name.length >= NAME_LENGTH - 1) {
-      setIsNameValid(false);
+      setIsNameValid(true);
+    }
+
+    const emailValidation = (email: string) => {
+      return EMAIL_REGEX.test(email);
+    };
+
+    if (emailValidation(formData.email)) {
+      setIsMailValid(true);
     }
 
     if (formData.message.length >= MESSAGE_LENGTH - 1) {
-      setIsMessageValid(false);
+      setIsMessageValid(true);
     }
   };
 
   const handleFormSumbit: FormSubmit = (event) => {
     event.preventDefault();
-    console.log(event);
+    alert(JSON.stringify(formData));
 
     if (formData.name.length < NAME_LENGTH) {
-      setIsNameValid(true);
+      setIsNameValid(false);
     }
 
+    const emailValidation = (email: string) => {
+      return EMAIL_REGEX.test(email);
+    };
+
+    setIsMailValid(emailValidation(formData.email));
+
     if (formData.message.length < MESSAGE_LENGTH) {
-      setIsMessageValid(true);
+      setIsMessageValid(false);
     }
   };
 
-  console.log(formData);
+  // console.log(formData);
 
   return (
     <>
@@ -63,7 +77,7 @@ export default function FormBasic() {
             onChange={handleFormDataChange}
             // onChange={(e) => console.log(e)}
           />
-          {isNameValid ? (
+          {!isNameValid ? (
             <p>Imię musi zawierać minimum {NAME_LENGTH} znaki.</p>
           ) : (
             ""
@@ -80,7 +94,7 @@ export default function FormBasic() {
             id="email"
             onChange={handleFormDataChange}
           />
-          <p></p>
+          {!isMailValid ? <p>Wpisz poprawny adres email</p> : ""}
         </label>
 
         <label htmlFor="message">
@@ -94,14 +108,19 @@ export default function FormBasic() {
             cols={30}
             rows={10}
           ></textarea>
-          {isMessageValid ? (
+          {!isMessageValid ? (
             <p>Wiadomość musi zawierać minimum {MESSAGE_LENGTH} znaków.</p>
           ) : (
             ""
           )}
         </label>
         <p></p>
-        <button type="submit">Wyślij wiadomość</button>
+        <button
+          type="submit"
+          disabled={!isNameValid || !isMailValid || !isMessageValid}
+        >
+          Wyślij wiadomość
+        </button>
       </form>
     </>
   );
