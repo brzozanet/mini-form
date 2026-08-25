@@ -18,8 +18,8 @@ export default function FormBasic() {
 
   // NOTE: Sprawdzanie poprawności imienia i treści wiadomości
 
-  const validateDataLength = (dataValue: string, requiredLenth: number) => {
-    return dataValue.length >= requiredLenth;
+  const validateDataLength = (dataValue: string, requiredLength: number) => {
+    return dataValue.length >= requiredLength;
   };
 
   const isNameValid = validateDataLength(formData.name, NAME_LENGTH);
@@ -58,8 +58,6 @@ export default function FormBasic() {
     setFormData(initialForm);
     setIsFormSend(false);
   };
-
-  console.log(formData);
 
   return (
     <>
