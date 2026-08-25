@@ -44,8 +44,13 @@ export default function FormBasic() {
 
   // NOTE: Wysyłanie formularza
 
-  const handleFormSumbit: FormSubmit = (event) => {
+  const handleFormSubmit: FormSubmit = (event) => {
     event.preventDefault();
+
+    if (!isNameValid || !isEmailValid || !isMessageValid) {
+      return;
+    }
+
     alert(JSON.stringify(formData));
     setFormData(initialForm);
   };
@@ -55,7 +60,7 @@ export default function FormBasic() {
   return (
     <>
       <h3>Form using useState</h3>
-      <form onSubmit={handleFormSumbit}>
+      <form onSubmit={handleFormSubmit}>
         <label htmlFor="name">
           <p>
             <strong>Imię</strong>
