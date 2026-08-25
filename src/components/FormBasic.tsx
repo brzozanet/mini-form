@@ -12,10 +12,6 @@ export default function FormBasic() {
     message: "",
   });
 
-  const [isNameValid, setIsNameValid] = useState(false);
-  const [isMailValid, setIsMailValid] = useState(false);
-  const [isMessageValid, setIsMessageValid] = useState(false);
-
   const handleFormDataChange: FormDataChange = (event) => {
     setFormData((prevFormState) => {
       return {
@@ -23,44 +19,12 @@ export default function FormBasic() {
         [event.target.name]: event.target.value,
       };
     });
-
-    if (formData.name.length >= NAME_LENGTH - 1) {
-      setIsNameValid(true);
-    }
-
-    const emailValidation = (email: string) => {
-      return EMAIL_REGEX.test(email);
-    };
-
-    if (emailValidation(formData.email)) {
-      setIsMailValid(true);
-    }
-
-    if (formData.message.length >= MESSAGE_LENGTH - 1) {
-      setIsMessageValid(true);
-    }
   };
 
   const handleFormSumbit: FormSubmit = (event) => {
     event.preventDefault();
     alert(JSON.stringify(formData));
-
-    if (formData.name.length < NAME_LENGTH) {
-      setIsNameValid(false);
-    }
-
-    const emailValidation = (email: string) => {
-      return EMAIL_REGEX.test(email);
-    };
-
-    setIsMailValid(emailValidation(formData.email));
-
-    if (formData.message.length < MESSAGE_LENGTH) {
-      setIsMessageValid(false);
-    }
   };
-
-  // console.log(formData);
 
   return (
     <>
@@ -77,15 +41,7 @@ export default function FormBasic() {
             onChange={handleFormDataChange}
             // onChange={(e) => console.log(e)}
           />
-          {formData.name ? (
-            !isNameValid ? (
-              <p>Imię musi zawierać minimum {NAME_LENGTH} znaki.</p>
-            ) : (
-              ""
-            )
-          ) : (
-            ""
-          )}
+          <p>Imię musi zawierać minimum {NAME_LENGTH} znaki.</p>
         </label>
 
         <label htmlFor="email">
@@ -98,15 +54,7 @@ export default function FormBasic() {
             id="email"
             onChange={handleFormDataChange}
           />
-          {formData.email ? (
-            !isMailValid ? (
-              <p>Wpisz poprawny adres email</p>
-            ) : (
-              ""
-            )
-          ) : (
-            ""
-          )}
+          <p>Wpisz poprawny adres email</p>
         </label>
 
         <label htmlFor="message">
@@ -120,23 +68,10 @@ export default function FormBasic() {
             cols={30}
             rows={10}
           ></textarea>
-          {formData.message ? (
-            !isMessageValid ? (
-              <p>Wiadomość musi zawierać minimum {MESSAGE_LENGTH} znaków.</p>
-            ) : (
-              ""
-            )
-          ) : (
-            ""
-          )}
+          <p>Wiadomość musi zawierać minimum {MESSAGE_LENGTH} znaków.</p>
         </label>
         <p></p>
-        <button
-          type="submit"
-          disabled={!isNameValid || !isMailValid || !isMessageValid}
-        >
-          Wyślij wiadomość
-        </button>
+        <button type="submit">Wyślij wiadomość</button>
       </form>
     </>
   );
