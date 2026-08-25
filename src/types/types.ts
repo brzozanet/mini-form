@@ -1,3 +1,7 @@
 export type FormDataChange = (
-  event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  parameter: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+) => void;
+
+export type FormSubmit = (
+  parameter: React.SubmitEvent<HTMLFormElement>,
 ) => void;
