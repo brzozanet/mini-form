@@ -56,6 +56,7 @@ export default function FormBasic() {
 
     setIsSuccess(true);
     setFormData(initialForm);
+    setIsFormSend(false);
   };
 
   console.log(formData);
@@ -92,7 +93,7 @@ export default function FormBasic() {
             value={formData.email}
             onChange={handleFormDataChange}
           />
-          {isEmailValid && isFormSend && <p>Wpisz poprawny adres email</p>}
+          {!isEmailValid && isFormSend && <p>Wpisz poprawny adres email</p>}
         </label>
 
         <label htmlFor="message">
@@ -107,17 +108,18 @@ export default function FormBasic() {
             cols={30}
             rows={10}
           ></textarea>
-          {isMessageValid && isFormSend && (
+          {!isMessageValid && isFormSend && (
             <p>Wiadomość musi zawierać minimum {MESSAGE_LENGTH} znaków.</p>
           )}
         </label>
         <p></p>
-        <button
+        <button type="submit">Wyślij wiadomość</button>
+        {/* <button
           type="submit"
           disabled={!isNameValid || !isEmailValid || !isMessageValid}
         >
           Wyślij wiadomość
-        </button>
+        </button> */}
       </form>
       {isSuccess && <h3>Formularz wysłany poprawnie 😀</h3>}
     </>
