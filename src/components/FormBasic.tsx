@@ -77,8 +77,12 @@ export default function FormBasic() {
             onChange={handleFormDataChange}
             // onChange={(e) => console.log(e)}
           />
-          {!isNameValid ? (
-            <p>Imię musi zawierać minimum {NAME_LENGTH} znaki.</p>
+          {formData.name ? (
+            !isNameValid ? (
+              <p>Imię musi zawierać minimum {NAME_LENGTH} znaki.</p>
+            ) : (
+              ""
+            )
           ) : (
             ""
           )}
@@ -94,7 +98,15 @@ export default function FormBasic() {
             id="email"
             onChange={handleFormDataChange}
           />
-          {!isMailValid ? <p>Wpisz poprawny adres email</p> : ""}
+          {formData.email ? (
+            !isMailValid ? (
+              <p>Wpisz poprawny adres email</p>
+            ) : (
+              ""
+            )
+          ) : (
+            ""
+          )}
         </label>
 
         <label htmlFor="message">
@@ -108,8 +120,12 @@ export default function FormBasic() {
             cols={30}
             rows={10}
           ></textarea>
-          {!isMessageValid ? (
-            <p>Wiadomość musi zawierać minimum {MESSAGE_LENGTH} znaków.</p>
+          {formData.message ? (
+            !isMessageValid ? (
+              <p>Wiadomość musi zawierać minimum {MESSAGE_LENGTH} znaków.</p>
+            ) : (
+              ""
+            )
           ) : (
             ""
           )}
