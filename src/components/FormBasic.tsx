@@ -5,12 +5,33 @@ const NAME_LENGTH = 2;
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MESSAGE_LENGTH = 5;
 
+const initialForm = {
+  name: "",
+  email: "",
+  message: "",
+};
+
 export default function FormBasic() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+  const [formData, setFormData] = useState(initialForm);
+
+  // NOTE: Sprawdzanie poprawności imienia i treści wiadomości
+
+  const validateDataLength = (dataValue: string, requiredLenth: number) => {
+    return dataValue.length >= requiredLenth;
+  };
+
+  const isNameValid = validateDataLength(formData.name, NAME_LENGTH);
+  const isMessageValid = validateDataLength(formData.message, MESSAGE_LENGTH);
+
+  // NOTE: Sprawdzanie poprawności adresu mail
+
+  const validateEmailByRegex = (email: string) => {
+    return EMAIL_REGEX.test(email);
+  };
+
+  const isEmailValid = validateEmailByRegex(formData.email);
+
+  // NOTE: Dodawanie danych z formularza do stanu aplikacji
 
   const handleFormDataChange: FormDataChange = (event) => {
     setFormData((prevFormState) => {
@@ -21,10 +42,15 @@ export default function FormBasic() {
     });
   };
 
+  // NOTE: Wysyłanie formularza
+
   const handleFormSumbit: FormSubmit = (event) => {
     event.preventDefault();
     alert(JSON.stringify(formData));
+    setFormData(initialForm);
   };
+
+  console.log(formData);
 
   return (
     <>
@@ -38,10 +64,19 @@ export default function FormBasic() {
             type="text"
             name="name"
             id="name"
+            value={formData.name}
             onChange={handleFormDataChange}
             // onChange={(e) => console.log(e)}
           />
-          <p>Imię musi zawierać minimum {NAME_LENGTH} znaki.</p>
+          {isNameValid ? (
+            ""
+          ) : (
+            <p>Imię musi zawierać minimum {NAME_LENGTH} znaki.</p>
+          )}
+
+          {/* {formData.name && !isNameValid && (
+            <p>Imię musi zawierać minimum {NAME_LENGTH} znaki.</p>
+          )} */}
         </label>
 
         <label htmlFor="email">
@@ -52,9 +87,10 @@ export default function FormBasic() {
             type="email"
             name="email"
             id="email"
+            value={formData.email}
             onChange={handleFormDataChange}
           />
-          <p>Wpisz poprawny adres email</p>
+          {isEmailValid ? "" : <p>Wpisz poprawny adres email</p>}
         </label>
 
         <label htmlFor="message">
@@ -64,14 +100,24 @@ export default function FormBasic() {
           <textarea
             name="message"
             id="message"
+            value={formData.message}
             onChange={handleFormDataChange}
             cols={30}
             rows={10}
           ></textarea>
-          <p>Wiadomość musi zawierać minimum {MESSAGE_LENGTH} znaków.</p>
+          {isMessageValid ? (
+            ""
+          ) : (
+            <p>Wiadomość musi zawierać minimum {MESSAGE_LENGTH} znaków.</p>
+          )}
         </label>
         <p></p>
-        <button type="submit">Wyślij wiadomość</button>
+        <button
+          type="submit"
+          disabled={!isNameValid || !isEmailValid || !isMessageValid}
+        >
+          Wyślij wiadomość
+        </button>
       </form>
     </>
   );
